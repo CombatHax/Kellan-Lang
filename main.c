@@ -4,7 +4,7 @@
 #include "lexer.c"
 
 int main(int args, char* argv[]) {
-    FILE* file = fopen(argv[1], "r");
+    FILE* file = fopen("main.kln", "r");
     if(file == NULL) {
         printf("Invalid File Name\n");
         return 1;

@@ -4,6 +4,7 @@
 
 char* read(FILE* f) {
     char* acts = malloc(1);
+    char** act = malloc(1);
     char c = fgetc(f);
     unsigned long row = 0;
     short quotes = 0;
@@ -27,6 +28,14 @@ char* read(FILE* f) {
         acts[row - 1] = c;
         c = fgetc(f);
     }
-    printf("%s", acts);
+    char* tok = strtok(acts, "\n");
+    long s = 0;
+    for(int i = 0; tok != NULL; i++) {
+        s = sizeof(tok);
+        act = realloc(act, sizeof(act) + s);
+        act[i] = realloc(act[i], s);
+        strcpy(act[i], tok);
+        tok = strtok(NULL, "\n");
+    }
     return acts;
 }
