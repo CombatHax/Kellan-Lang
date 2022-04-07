@@ -2,9 +2,17 @@
 #include <stdio.h>
 #include <string.h>
 
+typedef struct {
+    int* actions;
+    int* locs;
+} actions;
+typedef struct {
+    int* actions;
+    char* name;
+} function;
+
 char* read(FILE* f) {
     char* acts = malloc(1);
-    char** act = malloc(1);
     char c = fgetc(f);
     unsigned long row = 0;
     short quotes = 0;
@@ -15,7 +23,6 @@ char* read(FILE* f) {
             quotes = !(quotes % 2) ? 1 : 0;
         if(c == ' ' && !quotes) {
             if(spaces == 3) {
-                printf("Tab");
                 spaces = 0;
                 c = '\t';
                 acts = realloc(acts, row);
@@ -29,12 +36,19 @@ char* read(FILE* f) {
         c = fgetc(f);
     }
     char* tok = strtok(acts, "\n");
-    long s = 0;
+    char* mem = malloc(4);
     for(int i = 0; tok != NULL; i++) {
-        s = sizeof(tok);
-        act = realloc(act, sizeof(act) + s);
-        act[i] = realloc(act[i], s);
-        strcpy(act[i], tok);
+        memcpy(mem, tok, 4);
+        if(!(strcmp(mem, "prt "))) {
+            if(sizeof(tok) < 5) {
+                printf("Problemo");
+                tok = strtok(NULL, "\n");
+                continue;
+            }
+            char* val = malloc(sizeof(tok) - 4);
+            strcpy(val, tok + 4);
+            printf("%s\n", val);
+        }
         tok = strtok(NULL, "\n");
     }
     return acts;
