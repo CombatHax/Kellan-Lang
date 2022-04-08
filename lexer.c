@@ -2,18 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef struct {
-    int* actions;
-    char* name;
-} function;
-typedef struct {
-    char* name;
-    void* value;
-    char t;
-} variable;
-
 char* read(FILE* f) {
-    variable* vars = malloc(1);
     char* acts = malloc(1);
     char c = fgetc(f);
     unsigned long row = 0;
